@@ -1,0 +1,25 @@
+void * readFile(char* path) {
+	FILE *fp; /*filepointer*/
+	size_t size; /*filesize*/
+	unsigned char* buffer = NULL; /*buffer*/
+	fp = fopen(path, "rb"); /*open file*/
+	fseek(fp, 0, SEEK_END);
+	size = ftell(fp);         /*calc the size needed*/
+	printf("size of the file is %d byte\n", size);
+	fseek(fp, 0, SEEK_SET);
+
+	buffer = (unsigned char*) malloc(size);  /*allocalte space on heap*/
+	if (fp == NULL) { /*ERROR detection if file == empty*/
+		printf("Error: There was an Error reading the file %s \n", path);
+		exit(1);
+	}
+	else {
+		size_t tmpSize = fread(buffer, sizeof(char), size, fp);
+		if (tmpSize != size)
+		{ /* if count of read bytes != calculated size of .bin file -> ERROR*/
+			printf("Error: There was an Error reading the file %s - %d\n", path, r);
+			exit(1);
+		}
+	}
+	return buffer;
+}
